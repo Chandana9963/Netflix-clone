@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Login Page</title>
+    <link rel="stylesheet" href="signin.css">
+</head>
+<body>
+    <nav>
+        <a href="#"><img src="logo.png" alt="logo"></a>
+    </nav>
+    <div class="form-wrapper">
+        <h2>Sign In</h2>
+        <form>
+            <div class="form-control">
+                <input type="email" id="email" required>
+                <label for="email">Email or phone number</label>
+                <small id="email-error" style="color: red;"></small>
+            </div>
+            <div class="form-control">
+                <input type="password" id="password-input" required>
+                <label>Password</label>
+                <small id="password-error" style="color: red;"></small>
+            </div>
+            <button type="submit" id="signin-button" disabled>Sign In</button>
+        </form>
+        <div class="form-help">
+            <div class="remember-me">
+                <input type="checkbox" id="remember-me">
+                <label for="remember-me">Remember me</label>
+            </div>
+            <a href="#">Need help?</a>
+        </div>
+        <p>New to Netflix? <a href="Netflix.html">Sign up now</a></p>
+        <small>This page is protected by Google reCAPTCHA to ensure you're not a bot. <a href="#">Learn more.</a></small>
+    </div>
+
+    <script>
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password-input');
+        const signInButton = document.getElementById('signin-button');
+        const form = document.querySelector('form');
+
+        emailInput.addEventListener('input', validateForm);
+        passwordInput.addEventListener('input', validateForm);
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            window.location.href = 'processing.html';
+        });
+
+        function validateForm() {
+            const emailValue = emailInput.value;
+            const passwordValue = passwordInput.value;
+
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (emailValue && passwordValue) {
+                if (emailRegex.test(emailValue)) {
+                    document.getElementById("email-error").innerHTML = "";
+                } else {
+                    document.getElementById("email-error").innerHTML = "Invalid email format. Please use a @(link unavailable) email address.";
+                }
+
+                if (passwordRegex.test(passwordValue)) {
+                    document.getElementById("password-error").innerHTML = "";
+                } else {
+                    document.getElementById("password-error").innerHTML = "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special symbol";
+                }
+
+                if (emailRegex.test(emailValue) && passwordRegex.test(passwordValue)) {
+                    signInButton.disabled = false;
+                } else {
+                    signInButton.disabled = true;
+                }
+            } else {
+                signInButton.disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>
